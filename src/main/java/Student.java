@@ -1,22 +1,51 @@
-public class Student {
+import org.apache.commons.lang3.StringUtils;
+
+public class Student  {
     String fullName;
     String universityId;
     int currentCourseNumber;
     float avgExamScore;
+    public Student(String universityId,String fullName, int currentCourseNumber,float avgExamScore) {
+        this.setFullName(fullName);
+        this.setUniversityId(universityId);
+        this.setCurrentCourseNumber(currentCourseNumber);
+        this.setAvgExamScore(avgExamScore);
+    }
+
     public Student() {
     }
-    enum StudyProfile{
-        MEDICINE("Медицина"), IT("Информационные технологии"), ECONOMY("Экономика"), LAW("Юриспруденция");
-        String profileName;
-        StudyProfile(String rus) {
-            profileName = rus;
-        }
+    enum ChoseCompare{
+        FNAME, FOUNDY
+    }
 
-        public String getProfileName() {
-            return profileName;
+    static class FullNameComparator implements IStudComparator{
+
+        @Override
+        public int compare(Student o1, Student o2) {
+            return StringUtils.compare(o1.getFullName(),o2.getFullName());
         }
-    };
-    StudyProfile mainProfile;
+    }
+    static class CourseNumComparator implements IStudComparator{
+
+        @Override
+        public int compare(Student o1, Student o2) {
+            return Integer.compare(o1.getCurrentCourseNumber(), o2.getCurrentCourseNumber());
+        }
+    }
+    static class ExamScoreComparator implements IStudComparator{
+
+        @Override
+        public int compare(Student o1, Student o2) {
+            return Float.compare(o2.getAvgExamScore(),o1.getAvgExamScore());
+        }
+    }
+    static class UniverIdComparator implements IStudComparator{
+
+        @Override
+        public int compare(Student o1, Student o2) {
+            return StringUtils.compare(o1.getUniversityId(),o2.getUniversityId());
+        }
+    }
 
     public String getFullName() {
         return fullName;
@@ -50,13 +79,6 @@ public class Student {
         this.avgExamScore = avgExamScore;
     }
 
-    public StudyProfile getMainProfile() {
-        return mainProfile;
-    }
-
-    public void setMainProfile(StudyProfile mainProfile) {
-        this.mainProfile = mainProfile;
-    }
 
     @Override
     public String toString() {
@@ -65,7 +87,7 @@ public class Student {
                 ", universityId='" + universityId + '\'' +
                 ", currentCourseNumber=" + currentCourseNumber +
                 ", avgExamScore=" + avgExamScore +
-                ", mainProfile=" + mainProfile +
                 '}';
     }
-}
+
+ }
